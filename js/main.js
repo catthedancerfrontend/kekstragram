@@ -1,22 +1,10 @@
-// const getRandomNumber = function (from, to) {
-//   if (from < 0 || to <= from) {
-//     throw new Error('Неверный параметр!');
-//   }
-//   let lastNumber = getRandomNumber.lastNumber;
-//   let randomNumber = lastNumber;
-//   while (randomNumber == lastNumber) {
-//     randomNumber = Math.floor(Math.random() * (Math.floor(to) - Math.ceil(from) + 1) + Math.ceil(from));
-//   }
-//   getRandomNumber.lastNumber = randomNumber
-//   return randomNumber;
-// };
-
-const getRandomNumber = (min, max) => {
-  const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
-  const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
+const getRandomNumber = function (from, to) {
+  if (from < 0 || to <= from) {
+    throw new Error('Неверный параметр!');
+  }
+  return Math.floor(Math.random() * (Math.floor(to) - Math.ceil(from) + 1) + Math.ceil(from));
 };
+
 
 const isValidLength = function (str, maxLength) {
   return str.length <= maxLength;
@@ -58,26 +46,26 @@ const NAME = [
   'MasterCat',
   'fast_and_curious.',
 ];
-
+let currentPhotoId = 0;
+let currentCommentId = 0;
 const MAX_COMMENTS_NUMBER = 15;
 const OBJECT_COUNT = 25;
 const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
 
 const getRandomComment = () => ({
-  id: getRandomNumber(1, 200),
+  id: ++currentCommentId,
   avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
   message: getRandomArrayElement(MESSAGE),
   name: getRandomArrayElement(NAME),
 });
 
-const getRandomObject = () => ({
-  id: getRandomNumber(1, 25),
-  url: `photos/${getRandomNumber(1, 25)}.jpg`,
+const getRandomPhotoObject = () => ({
+  id: ++currentPhotoId,
+  url: `photos/${currentPhotoId}.jpg`,
   description: getRandomArrayElement(DESCRIPTION),
   likes: getRandomNumber(15, 200),
   comments: Array.from({length: getRandomNumber(0, MAX_COMMENTS_NUMBER)}, getRandomComment),
 });
 
-const objectArr = Array.from({length: OBJECT_COUNT}, getRandomObject);
-
-console.log(objectArr);
+// eslint-disable-next-line
+const photos = Array.from({length: OBJECT_COUNT}, getRandomPhotoObject);
