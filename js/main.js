@@ -59,13 +59,15 @@ const getRandomComment = () => ({
   name: getRandomArrayElement(NAME),
 });
 
+const getRandomObjectArray = (count, callback) => Array.from({length: count}, callback);
+
 const getRandomPhotoObject = () => ({
   id: ++currentPhotoId,
   url: `photos/${currentPhotoId}.jpg`,
   description: getRandomArrayElement(DESCRIPTION),
   likes: getRandomNumber(15, 200),
-  comments: Array.from({length: getRandomNumber(0, MAX_COMMENTS_NUMBER)}, getRandomComment),
+  comments: getRandomObjectArray(getRandomNumber(0, MAX_COMMENTS_NUMBER), getRandomComment),
 });
 
 // eslint-disable-next-line
-const photos = Array.from({length: OBJECT_COUNT}, getRandomPhotoObject);
+const photos = getRandomObjectArray(OBJECT_COUNT, getRandomPhotoObject);
