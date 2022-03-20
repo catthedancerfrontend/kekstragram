@@ -1,4 +1,4 @@
-import {getRandomNumber, getRandomArrayElement, getRandomObjectArray} from './util.js';
+import { getRandomNumber, getRandomArrayElement, getArrayFrom } from './util.js';
 
 let currentPhotoId = 0;
 let currentCommentId = 0;
@@ -52,9 +52,9 @@ const getRandomPhotoObject = () => ({
   url: `photos/${currentPhotoId}.jpg`,
   description: getRandomArrayElement(DESCRIPTION),
   likes: getRandomNumber(15, 200),
-  comments: getRandomObjectArray(getRandomNumber(0, MAX_COMMENTS_NUMBER), getRandomComment),
+  comments: getArrayFrom(getRandomNumber(0, MAX_COMMENTS_NUMBER), getRandomComment),
 });
 
 const OBJECT_COUNT = 25;
 // eslint-disable-next-line
-const photos = getRandomObjectArray(OBJECT_COUNT, getRandomPhotoObject);
+const photos = getArrayFrom(OBJECT_COUNT, getRandomPhotoObject);

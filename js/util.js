@@ -11,6 +11,6 @@ const isValidLength = function (str, maxLength) {
 
 const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
 
-const getArrayFrom = (count, callback) => Array.from({length: count}, callback);
+const getArrayFrom = (count, callback) => Array.from({ length: count }, callback);
 
-export {getRandomNumber, isValidLength, getRandomArrayElement, getArrayFrom as getRandomObjectArray};
+export { getRandomNumber, isValidLength, getRandomArrayElement, getArrayFrom };
