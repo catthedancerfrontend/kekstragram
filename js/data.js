@@ -58,5 +58,3 @@ const getRandomPhotoObject = () => ({
 const OBJECT_COUNT = 25;
 // eslint-disable-next-line
 const photos = getRandomObjectArray(OBJECT_COUNT, getRandomPhotoObject);
-
-export {};
