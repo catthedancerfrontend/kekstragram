@@ -3,6 +3,7 @@ import { getRandomNumber, getRandomArrayElement, getArrayFrom } from './util.js'
 let currentPhotoId = 0;
 let currentCommentId = 0;
 const MAX_COMMENTS_NUMBER = 15;
+const OBJECT_COUNT = 25;
 
 const DESCRIPTION = [
   'Если смогу, я сделаю это. Конец истории.',
@@ -55,6 +56,7 @@ const getRandomPhotoObject = () => ({
   comments: getArrayFrom(getRandomNumber(0, MAX_COMMENTS_NUMBER), getRandomComment),
 });
 
-const OBJECT_COUNT = 25;
-// eslint-disable-next-line
+
 const photos = getArrayFrom(OBJECT_COUNT, getRandomPhotoObject);
+
+export { photos };
