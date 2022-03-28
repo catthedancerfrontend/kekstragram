@@ -19,5 +19,4 @@ photos.forEach((photo) => {
 });
 previewWrapper.appendChild(previewFragment);
 
-
 export {};

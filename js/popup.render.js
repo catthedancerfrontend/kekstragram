@@ -1,24 +1,24 @@
-const popup = document.querySelector('.big-picture');
-const closeButton = popup.querySelector('#picture-cancel');
-const fullPhoto = popup.querySelector('.big-picture__img img');
-const likesCount = popup.querySelector('.likes-count');
-const commentsBlock = popup.querySelector('.social__comments');
-const commentsCount = popup.querySelector('.comments-count');
-const photoDescription = popup.querySelector('.social__caption');
-const bodyElement = document.querySelector('body');
+const popupEl = document.querySelector('.big-picture');
+const closeButtonEl = popupEl.querySelector('#picture-cancel');
+const fullPhotoEl = popupEl.querySelector('.big-picture__img img');
+const likesCountEl = popupEl.querySelector('.likes-count');
+const commentsBlockEl = popupEl.querySelector('.social__comments');
+const commentsCountEl = popupEl.querySelector('.comments-count');
+const photoDescriptionEl = popupEl.querySelector('.social__caption');
+const bodyElementEl = document.querySelector('body');
+const commentCountBlock = popupEl.querySelector('.social__comment-count');
 
-const commentCountBlock = popup.querySelector('.social__comment-count');
 commentCountBlock.classList.add('hidden');
-
-const commentsLoader = popup.querySelector('.comments-loader');
-commentsLoader.classList.add('hidden');
+popupEl.querySelector('.social__comment-count').classList.add('hidden');
 
 const fillPopup = (photo) => {
-  commentsBlock.innerHTML = '';
-  fullPhoto.src = photo.url;
-  likesCount.textContent = photo.likes;
-  commentsCount.textContent = photo.comments.length;
-  photoDescription.textContent = photo.description;
+  commentsBlockEl.innerHTML = '';
+
+  fullPhotoEl.src = photo.url;
+  likesCountEl.textContent = photo.likes;
+  commentsCountEl.textContent = photo.comments.length;
+  photoDescriptionEl.textContent = photo.description;
+
   photo.comments.forEach((comment) => {
     const listItem = document.createElement('li');
     const img = document.createElement('img');
@@ -33,32 +33,24 @@ const fillPopup = (photo) => {
     img.width = 35;
     img.height = 35;
     paragraph.textContent = comment.message;
-    commentsBlock.appendChild(listItem);
+    commentsBlockEl.appendChild(listItem);
   });
-
 };
 
 const openPopup = (photo) => {
-  popup.classList.remove('hidden');
-  bodyElement.classList.add('modal-open');
+  popupEl.classList.remove('hidden');
+  bodyElementEl.classList.add('modal-open');
   fillPopup(photo);
+  const closePopup = () => {
+    popupEl.classList.add('hidden');
+    bodyElementEl.classList.remove('modal-open');
+  };
+  closeButtonEl.addEventListener('click', closePopup);
+  document.addEventListener('keyup', (evt) => {
+    if (evt.key === 'Escape') {
+      closePopup();
+    }
+  });
 };
-
-const closePopup = () => {
-  popup.classList.add('hidden');
-  bodyElement.classList.remove('modal-open');
-};
-
-closeButton.addEventListener('click', () => {
-  closePopup();
-});
-
-document.addEventListener('keyup', (evt) => {
-  if (evt.key === 'Escape') {
-    closePopup();
-  }
-});
 
 export { openPopup };
-
-
