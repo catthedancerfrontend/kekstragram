@@ -7,19 +7,23 @@ const commentsCountEl = popupEl.querySelector('.comments-count');
 const photoDescriptionEl = popupEl.querySelector('.social__caption');
 const bodyElementEl = document.querySelector('body');
 const commentCountBlock = popupEl.querySelector('.social__comment-count');
+const commentLoader = popupEl.querySelector('.comments-loader');
+const currentsCommentsCount = popupEl.querySelector('.comments-current');
+const COMMENTS_VISIBILITY_STEP = 5;
 
-commentCountBlock.classList.add('hidden');
-popupEl.querySelector('.social__comment-count').classList.add('hidden');
+const hideShowMoreButton = (visibleComments, commentsLength) => {
+  if (visibleComments > commentsLength) {
+    commentLoader.classList.add('hidden');
+  } else {
+    commentLoader.classList.remove('hidden');
+  }
+};
 
-const fillPopup = (photo) => {
-  commentsBlockEl.innerHTML = '';
-
-  fullPhotoEl.src = photo.url;
-  likesCountEl.textContent = photo.likes;
-  commentsCountEl.textContent = photo.comments.length;
-  photoDescriptionEl.textContent = photo.description;
-
-  photo.comments.forEach((comment) => {
+const renderComments = (photo, visibleComments) => {
+  for (let i = visibleComments - COMMENTS_VISIBILITY_STEP; i < visibleComments; i++) {
+    if (!photo.comments[i]) {
+      break;
+    }
     const listItem = document.createElement('li');
     const img = document.createElement('img');
     const paragraph = document.createElement('p');
@@ -28,12 +32,31 @@ const fillPopup = (photo) => {
     paragraph.classList.add('social__text');
     listItem.appendChild(img);
     listItem.appendChild(paragraph);
-    img.src = comment.avatar;
-    img.alt = comment.name;
+    img.src = photo.comments[i].avatar;
+    img.alt = photo.comments[i].name;
     img.width = 35;
     img.height = 35;
-    paragraph.textContent = comment.message;
+    paragraph.textContent = photo.comments[i].message;
     commentsBlockEl.appendChild(listItem);
+  }
+  currentsCommentsCount.textContent = commentsBlockEl.children.length;
+  hideShowMoreButton(visibleComments, photo.comments.length);
+};
+
+const fillPopup = (photo) => {
+  let visibleComments = 5;
+
+  commentsBlockEl.innerHTML = '';
+
+  fullPhotoEl.src = photo.url;
+  likesCountEl.textContent = photo.likes;
+  commentsCountEl.textContent = photo.comments.length;
+  photoDescriptionEl.textContent = photo.description;
+  renderComments(photo, visibleComments);
+
+  commentLoader.addEventListener('click', () => {
+    visibleComments = visibleComments + COMMENTS_VISIBILITY_STEP;
+    renderComments(photo, visibleComments);
   });
 };
 
