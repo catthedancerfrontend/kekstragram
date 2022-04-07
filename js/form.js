@@ -8,7 +8,6 @@ const cancelButtonElement = formElement.querySelector('#upload-cancel');
 const commentInputElement = formElement.querySelector('.text__description');
 const hashtagInputElement = formElement.querySelector('.text__hashtags');
 
-
 const hideImagePopup = () => {
   imageOverlay.classList.add('hidden');
   bodyElement.classList.remove('modal-open');

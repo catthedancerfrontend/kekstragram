@@ -1,17 +1,15 @@
-const scaleControlSmallerButton = document.querySelector('.scale__control--smaller');
-const scaleControlBiggerButton = document.querySelector('.scale__control--bigger');
-const scaleControlValue = document.querySelector('.scale__control--value');
-const imageUploadPreview = document.querySelector('.img-upload__preview');
-const effectsButton = document.querySelectorAll('.effects__radio');
-const sliderElement = document.querySelector('.effect-level__slider');
-const valueElement = document.querySelector('.effect-level__value');
-const effectRadioButtons = document.querySelector('.effects__list');
-const sliderBackgroundElement = document.querySelector('.img-upload__effect-level');
+const imageUpload = document.querySelector('.img-upload');
+const scaleControlSmallerButton = imageUpload.querySelector('.scale__control--smaller');
+const scaleControlBiggerButton = imageUpload.querySelector('.scale__control--bigger');
+const scaleControlValue = imageUpload.querySelector('.scale__control--value');
+const imageUploadPreview = imageUpload.querySelector('.img-upload__preview');
+const effectsButton = imageUpload.querySelectorAll('.effects__radio');
+const sliderElement = imageUpload.querySelector('.effect-level__slider');
+const effectRadioButtons = imageUpload.querySelector('.effects__list');
+const sliderBackgroundElement = imageUpload.querySelector('.img-upload__effect-level');
 
-valueElement.value = 100;
-
-let value = 100;
-let scale = 1;
+let valueScale = 100;
+let scaleControl = 1;
 const MAX_SCALE = 1;
 const MIN_SCALE = 0.25;
 const SCALE_STEP = 0.25;
@@ -60,24 +58,26 @@ const filterConfigMap = {
   },
 };
 
+const FILTER_NAMES = {NONE: 'none', CHROME: 'chrome', SEPIA: 'sepia', MARVIN: 'marvin', PHOBOS: 'phobos', HEAT: 'heat'};
+
 scaleControlSmallerButton.addEventListener('click', () => {
-  if (scale <= MIN_SCALE) {
+  if (scaleControl <= MIN_SCALE) {
     return;
   }
-  scale -= SCALE_STEP;
-  value -= VALUE_STEP;
-  imageUploadPreview.style.transform = `scale(${scale})`;
-  scaleControlValue.value = `${value}%`;
+  scaleControl -= SCALE_STEP;
+  valueScale -= VALUE_STEP;
+  imageUploadPreview.style.transform = `scale(${scaleControl})`;
+  scaleControlValue.value = `${valueScale}%`;
 });
 
 scaleControlBiggerButton.addEventListener('click', () => {
-  if (scale >= MAX_SCALE) {
+  if (scaleControl >= MAX_SCALE) {
     return;
   }
-  scale += SCALE_STEP;
-  value += VALUE_STEP;
-  imageUploadPreview.style.transform = `scale(${scale})`;
-  scaleControlValue.value = `${value}%`;
+  scaleControl += SCALE_STEP;
+  valueScale += VALUE_STEP;
+  imageUploadPreview.style.transform = `scale(${scaleControl})`;
+  scaleControlValue.value = `${valueScale}%`;
 });
 
 
@@ -105,21 +105,21 @@ noUiSlider.create(sliderElement, {
 const applyIntensity = (intensity) => {
   const effectValue = effectRadioButtons.querySelector('input[name="effect"]:checked').value ;
   switch (effectValue) {
-    case 'none':
+    case FILTER_NAMES.NONE:
       break;
-    case 'chrome':
+    case FILTER_NAMES.CHROME:
       imageUploadPreview.style.filter = `grayscale(${intensity})`;
       break;
-    case 'sepia':
+    case FILTER_NAMES.SEPIA:
       imageUploadPreview.style.filter = `sepia(${intensity})`;
       break;
-    case 'marvin':
+    case FILTER_NAMES.MARVIN:
       imageUploadPreview.style.filter = `invert(${intensity}%)`;
       break;
-    case 'phobos':
+    case FILTER_NAMES.PHOBOS:
       imageUploadPreview.style.filter = `blur(${intensity}px)`;
       break;
-    case 'heat':
+    case FILTER_NAMES.HEAT:
       imageUploadPreview.style.filter = `brightness(${intensity})`;
       break;
   }
@@ -130,34 +130,33 @@ sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
   applyIntensity(unencoded[handle]);
 });
 
-
 effectsButton.forEach((element) => element.addEventListener('click', () => {
   const addFilter = (filter) => {
     sliderBackgroundElement.classList.remove('hidden');
     imageUploadPreview.classList = 'img-upload__preview';
     switch (filter) {
-      case 'none':
+      case FILTER_NAMES.NONE:
         sliderBackgroundElement.classList.add('hidden');
         imageUploadPreview.classList.add('effects__preview--none');
         imageUploadPreview.style = '';
         break;
-      case 'chrome':
+      case FILTER_NAMES.CHROME:
         imageUploadPreview.classList.add('effects__preview--chrome');
         sliderElement.noUiSlider.updateOptions(filterConfigMap.chrome);
         break;
-      case 'sepia':
+      case FILTER_NAMES.SEPIA:
         imageUploadPreview.classList.add('effects__preview--sepia');
         sliderElement.noUiSlider.updateOptions(filterConfigMap.sepia);
         break;
-      case 'marvin':
+      case FILTER_NAMES.MARVIN:
         imageUploadPreview.classList.add('effects__preview--marvin');
         sliderElement.noUiSlider.updateOptions(filterConfigMap.marvin);
         break;
-      case 'phobos':
+      case FILTER_NAMES.PHOBOS:
         imageUploadPreview.classList.add('effects__preview--phobos');
         sliderElement.noUiSlider.updateOptions(filterConfigMap.phobos);
         break;
-      case 'heat':
+      case FILTER_NAMES.HEAT:
         imageUploadPreview.classList.add('effects__preview--heat');
         sliderElement.noUiSlider.updateOptions(filterConfigMap.heat);
         break;
@@ -165,4 +164,3 @@ effectsButton.forEach((element) => element.addEventListener('click', () => {
   };
   addFilter(element.value);
 }));
-

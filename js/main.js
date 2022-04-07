@@ -4,4 +4,4 @@ import './preview.render.js';
 import './popup.render.js';
 import './form.js';
 import './validation.js';
-import './effects-init.js'
+import './photo-edit.js';
