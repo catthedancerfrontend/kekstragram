@@ -1,3 +1,5 @@
+import { filterConfigMap } from './filter-config.js';
+
 const imageUpload = document.querySelector('.img-upload');
 const scaleControlSmallerButton = imageUpload.querySelector('.scale__control--smaller');
 const scaleControlBiggerButton = imageUpload.querySelector('.scale__control--bigger');
@@ -14,49 +16,6 @@ const MAX_SCALE = 1;
 const MIN_SCALE = 0.25;
 const SCALE_STEP = 0.25;
 const VALUE_STEP = 25;
-
-const filterConfigMap = {
-  chrome: {
-    range: {
-      min: 0,
-      max: 1,
-    },
-    step: 0.1,
-    start: 1,
-  },
-  sepia: {
-    range: {
-      min: 0,
-      max: 1,
-    },
-    step: 0.1,
-    start: 1,
-  },
-  marvin: {
-    range: {
-      min: 0,
-      max: 100,
-    },
-    step: 1,
-    start: 100,
-  },
-  phobos: {
-    range: {
-      min: 0,
-      max: 3,
-    },
-    step: 0.1,
-    start: 3,
-  },
-  heat: {
-    range: {
-      min: 1,
-      max: 3,
-    },
-    step: 0.1,
-    start: 3,
-  },
-};
 
 const FILTER_NAMES = {NONE: 'none', CHROME: 'chrome', SEPIA: 'sepia', MARVIN: 'marvin', PHOBOS: 'phobos', HEAT: 'heat'};
 
@@ -126,41 +85,41 @@ const applyIntensity = (intensity) => {
 };
 
 sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
-  unencoded[handle];
   applyIntensity(unencoded[handle]);
 });
 
+const addFilter = (filter) => {
+  sliderBackgroundElement.classList.remove('hidden');
+  imageUploadPreview.classList = 'img-upload__preview';
+  switch (filter) {
+    case FILTER_NAMES.NONE:
+      sliderBackgroundElement.classList.add('hidden');
+      imageUploadPreview.classList.add('effects__preview--none');
+      imageUploadPreview.style = '';
+      break;
+    case FILTER_NAMES.CHROME:
+      imageUploadPreview.classList.add('effects__preview--chrome');
+      sliderElement.noUiSlider.updateOptions(filterConfigMap.chrome);
+      break;
+    case FILTER_NAMES.SEPIA:
+      imageUploadPreview.classList.add('effects__preview--sepia');
+      sliderElement.noUiSlider.updateOptions(filterConfigMap.sepia);
+      break;
+    case FILTER_NAMES.MARVIN:
+      imageUploadPreview.classList.add('effects__preview--marvin');
+      sliderElement.noUiSlider.updateOptions(filterConfigMap.marvin);
+      break;
+    case FILTER_NAMES.PHOBOS:
+      imageUploadPreview.classList.add('effects__preview--phobos');
+      sliderElement.noUiSlider.updateOptions(filterConfigMap.phobos);
+      break;
+    case FILTER_NAMES.HEAT:
+      imageUploadPreview.classList.add('effects__preview--heat');
+      sliderElement.noUiSlider.updateOptions(filterConfigMap.heat);
+      break;
+  }
+};
+
 effectsButton.forEach((element) => element.addEventListener('click', () => {
-  const addFilter = (filter) => {
-    sliderBackgroundElement.classList.remove('hidden');
-    imageUploadPreview.classList = 'img-upload__preview';
-    switch (filter) {
-      case FILTER_NAMES.NONE:
-        sliderBackgroundElement.classList.add('hidden');
-        imageUploadPreview.classList.add('effects__preview--none');
-        imageUploadPreview.style = '';
-        break;
-      case FILTER_NAMES.CHROME:
-        imageUploadPreview.classList.add('effects__preview--chrome');
-        sliderElement.noUiSlider.updateOptions(filterConfigMap.chrome);
-        break;
-      case FILTER_NAMES.SEPIA:
-        imageUploadPreview.classList.add('effects__preview--sepia');
-        sliderElement.noUiSlider.updateOptions(filterConfigMap.sepia);
-        break;
-      case FILTER_NAMES.MARVIN:
-        imageUploadPreview.classList.add('effects__preview--marvin');
-        sliderElement.noUiSlider.updateOptions(filterConfigMap.marvin);
-        break;
-      case FILTER_NAMES.PHOBOS:
-        imageUploadPreview.classList.add('effects__preview--phobos');
-        sliderElement.noUiSlider.updateOptions(filterConfigMap.phobos);
-        break;
-      case FILTER_NAMES.HEAT:
-        imageUploadPreview.classList.add('effects__preview--heat');
-        sliderElement.noUiSlider.updateOptions(filterConfigMap.heat);
-        break;
-    }
-  };
   addFilter(element.value);
 }));
