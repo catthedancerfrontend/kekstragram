@@ -1,10 +1,9 @@
-const createData = (onSuccess, onError) => () => {
+import { renderPhotoPreview } from './preview.render.js';
+import { showAlert } from './alert.js';
+
+const getData = () => {
   fetch(
     'https://24.javascript.pages.academy/kekstagram/data',
-    {
-      method: 'GET',
-      credentials: 'same-origin',
-    },
   )
     .then((response) => {
       if (response.ok) {
@@ -14,11 +13,10 @@ const createData = (onSuccess, onError) => () => {
       throw new Error(`${response.status} ${response.statusText}`);
     })
     .then((data) => {
-      console.log('Результат', data);
+      renderPhotoPreview(data);
     })
     .catch((err) => {
-      console.error(err);
+      showAlert(err);
     });
 };
-
-export { createData };
+export { getData };
