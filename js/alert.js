@@ -1,4 +1,6 @@
 const ALERT_SHOW_TIME = 5000;
+const successPopup = document.querySelector('#success').content.querySelector('section');
+const errorPopup = document.querySelector('#error').content.querySelector('section');
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
@@ -19,4 +21,28 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export { showAlert };
+const closeStatePopup = (popup) => {
+  popup.remove();
+};
+
+const escHandler = (evt, popup) => {
+  if (evt.key === 'Escape') {
+    closeStatePopup(popup);
+  }
+};
+
+const showStatePopup = (isError = false) => {
+  const element = isError ? errorPopup : successPopup;
+  const elementClass = isError ? 'error' : 'success';
+  document.body.appendChild(element);
+  const popup = document.querySelector(`.${elementClass}`);
+  const successButton = popup.querySelector(`.${elementClass}__button`);
+  successButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    closeStatePopup(popup);
+  });
+  popup.addEventListener('click', () => closeStatePopup(popup));
+  document.addEventListener('keyup', (evt) => escHandler(evt, popup));
+};
+
+export { showAlert, showStatePopup};
