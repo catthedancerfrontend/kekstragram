@@ -1,5 +1,8 @@
 import { isValidateComment, isValidHashtag } from './validation.js';
 import { isFocused } from './util.js';
+import { sendData } from './api.js';
+import { showAlert } from './alert.js';
+import { showStatePopup } from './alert.js';
 const bodyElement = document.querySelector('body');
 const uploadImageInput = document.querySelector('#upload-file');
 const imageOverlay = document.querySelector('.img-upload__overlay');
@@ -8,11 +11,14 @@ const cancelButtonElement = formElement.querySelector('#upload-cancel');
 const commentInputElement = formElement.querySelector('.text__description');
 const hashtagInputElement = formElement.querySelector('.text__hashtags');
 
+
+
 const hideImagePopup = () => {
   imageOverlay.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.querySelector('.img-upload__form').reset();
   document.removeEventListener('keyup', escHandler);
+  formElement.reset();
 };
 
 const escHandler = (evt) => {
@@ -30,8 +36,19 @@ const showImagePopup = () => {
 
 uploadImageInput.addEventListener('change', showImagePopup);
 
+const afterUploadCallback = (isError = false) => {
+  showStatePopup(isError);
+  hideImagePopup();
+};
+
 formElement.addEventListener('submit', (evt) => {
   evt.preventDefault();
+
+  sendData(
+    new FormData(evt.target),
+    () => afterUploadCallback(false),
+    () => afterUploadCallback(true),
+  );
 });
 
 commentInputElement.addEventListener('input', () => {
