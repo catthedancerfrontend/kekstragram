@@ -15,4 +15,16 @@ const isFocused = (element) => document.activeElement === element;
 
 const hasDublicates = (array) => array.filter((element, index) => array.indexOf(element) !== index);
 
-export { getRandomNumber, isValidLength, getRandomArrayElement, getArrayFrom, isFocused, hasDublicates };
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+
+    timeoutDelay;
+  };
+}
+
+export { getRandomNumber, isValidLength, getRandomArrayElement, getArrayFrom, isFocused, hasDublicates, debounce };

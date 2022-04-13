@@ -1,5 +1,7 @@
 import { renderPhotoPreview } from './preview.render.js';
 import { showAlert } from './alert.js';
+import { showFilter } from './sort.js';
+import { setPhotos } from './data.js';
 const GET_URL = 'https://24.javascript.pages.academy/kekstagram/data';
 const POST_URL = 'https://24.javascript.pages.academy/kekstagram';
 
@@ -15,7 +17,9 @@ const getData = () => {
       throw new Error(`${response.status} ${response.statusText}`);
     })
     .then((data) => {
+      setPhotos(data);
       renderPhotoPreview(data);
+      showFilter();
     })
     .catch((err) => {
       showAlert(err);
