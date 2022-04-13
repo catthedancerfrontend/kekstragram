@@ -7,12 +7,11 @@ const filterBlock = document.querySelector('.img-filters');
 const randomFilterElement = filterBlock.querySelector('#filter-random');
 const defaultFilterElement = filterBlock.querySelector('#filter-default');
 const discussedFilterElement = filterBlock.querySelector('#filter-discussed');
-const DELAY = 500;
+const RENDER_DELAY = 500;
 
 
 const showFilter = () => {
-  filterBlock.classList.remove('hidden');
-  filterBlock.classList.remove('img-filters--inactive');
+  filterBlock.classList.remove('hidden', 'img-filters--inactive');
   filterBlock.classList.add('img-filters--active');
 };
 
@@ -28,7 +27,7 @@ defaultFilterElement.addEventListener('click', debounce(() => {
   clearPhotoArray();
   renderPhotoPreview(photos);
   setActiveSortElement(defaultFilterElement);
-}, DELAY));
+}, RENDER_DELAY));
 
 randomFilterElement.addEventListener('click', debounce(() => {
   const photos = getPhotos();
@@ -42,7 +41,7 @@ randomFilterElement.addEventListener('click', debounce(() => {
   clearPhotoArray();
   renderPhotoPreview(randomPhotoArray);
   setActiveSortElement(randomFilterElement);
-}, DELAY));
+}, RENDER_DELAY));
 
 discussedFilterElement.addEventListener('click', debounce(() => {
   const photos = getPhotos();
@@ -50,6 +49,6 @@ discussedFilterElement.addEventListener('click', debounce(() => {
   clearPhotoArray();
   renderPhotoPreview(discussedPhotosArray);
   setActiveSortElement(discussedFilterElement);
-}, DELAY));
+}, RENDER_DELAY));
 
 export { showFilter };
