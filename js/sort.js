@@ -7,6 +7,7 @@ const filterBlock = document.querySelector('.img-filters');
 const randomFilterElement = filterBlock.querySelector('#filter-random');
 const defaultFilterElement = filterBlock.querySelector('#filter-default');
 const discussedFilterElement = filterBlock.querySelector('#filter-discussed');
+const RANDOM_ARRAY_LENGTH = 10;
 const RENDER_DELAY = 500;
 
 
@@ -32,7 +33,7 @@ defaultFilterElement.addEventListener('click', debounce(() => {
 randomFilterElement.addEventListener('click', debounce(() => {
   const photos = getPhotos();
   const randomPhotoArray = [];
-  while (randomPhotoArray.length < 10) {
+  while (randomPhotoArray.length < RANDOM_ARRAY_LENGTH) {
     const newRandomPhoto = getRandomArrayElement(photos);
     if (!randomPhotoArray.includes(newRandomPhoto)) {
       randomPhotoArray.push(newRandomPhoto);
