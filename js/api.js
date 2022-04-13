@@ -1,9 +1,11 @@
 import { renderPhotoPreview } from './preview.render.js';
 import { showAlert } from './alert.js';
+const GET_URL = 'https://24.javascript.pages.academy/kekstagram/data';
+const POST_URL = 'https://24.javascript.pages.academy/kekstagram';
 
 const getData = () => {
   fetch(
-    'https://24.javascript.pages.academy/kekstagram/data',
+    GET_URL,
   )
     .then((response) => {
       if (response.ok) {
@@ -22,21 +24,17 @@ const getData = () => {
 
 const sendData = (data, onSuccess, onError) => {
   fetch(
-    'https://24.javascript.pages.academy/kekstagram',
+    POST_URL,
     {
       method: 'POST',
       body: data,
     },
   )
     .then((response) => {
-      if (response.ok) {
-        onSuccess();
-      } else {
-        onError('Не удалось отправить форму. Попробуйте ещё раз');
-      }
+      response.ok ? onSuccess() : onError('Не удалось отправить форму. Попробуйте ещё раз');
     })
-    .catch(() => {
-      onError('Не удалось отправить форму. Попробуйте ещё раз');
+    .catch((err) => {
+      onError(err);
     });
 };
 

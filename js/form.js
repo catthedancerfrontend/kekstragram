@@ -36,7 +36,7 @@ const showImagePopup = () => {
 
 uploadImageInput.addEventListener('change', showImagePopup);
 
-const afterUoloadCallback = (isError = false) => {
+const afterUploadCallback = (isError = false) => {
   showStatePopup(isError);
   hideImagePopup();
 };
@@ -46,8 +46,8 @@ formElement.addEventListener('submit', (evt) => {
 
   sendData(
     new FormData(evt.target),
-    () => afterUoloadCallback(false),
-    () => afterUoloadCallback(true),
+    () => afterUploadCallback(false),
+    () => afterUploadCallback(true),
   );
 });
 

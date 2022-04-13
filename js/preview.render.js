@@ -1,4 +1,3 @@
-// import { photos } from './data.js';
 import { openPopup } from './popup.render.js';
 
 const previewTemplate = document.querySelector('#picture').content.querySelector('a');
