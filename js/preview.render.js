@@ -20,4 +20,12 @@ const renderPhotoPreview = (photos) => {
   previewWrapper.appendChild(previewFragment);
 };
 
-export { renderPhotoPreview };
+const clearPhotoArray = () => {
+  const allPhotos = document.querySelectorAll('.picture');
+  allPhotos.forEach((element) => {
+    element.remove();
+  });
+};
+
+
+export { renderPhotoPreview, clearPhotoArray };
